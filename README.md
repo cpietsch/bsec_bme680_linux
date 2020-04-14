@@ -18,8 +18,8 @@ Readings will be directly output to stdout in a loop.
 
 ## Prerequisites
 
-[Download the BSEC software package from Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bsec)
-and put it into `./src`, then unpack.
+[Download the BSEC software package from Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bsec) `wget https://www.bosch-sensortec.com/media/boschsensortec/downloads/bsec/bsec_1-4-7-4_generic_release.zip`
+and put it into `./src`, then unpack `unzip bsec_1-4-7-4_generic_release.zip`.
 
 ## Configure and Compile
 
