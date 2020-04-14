@@ -211,11 +211,11 @@ void output_ready(int64_t timestamp, float iaq, uint8_t iaq_accuracy,
   //printf(",%" PRId64, timestamp);
   //printf(",%" PRId64, timestamp_ms);*/
   
-  printf("{\"IAQ_Accuracy\": \"%d\",\"IAQ\":\"%.2f\"", iaq_accuracy, iaq);
-  printf(",\"Temperature\": \"%.2f\",\"Humidity\": \"%.2f\",\"Pressure\": \"%.2f\"", temperature, humidity,pressure / 100);
-  printf(",\"Gas\": \"%.0f\"", gas);
-  printf(",\"bVOCe ppm\": \"%.25f\"", breath_voc_equivalent);
-  printf(",\"Status\": \"%d\"}", bsec_status);
+  printf("{\"IAQ_Accuracy\": %d,\"IAQ\":%.2f", iaq_accuracy, iaq);
+  printf(",\"Temperature\": %.2f,\"Humidity\": %.2f,\"Pressure\": %.2f", temperature, humidity,pressure / 100);
+  printf(",\"Gas\": %.0f", gas);
+  printf(",\"bVOCe ppm\": %.4f", breath_voc_equivalent);
+  printf(",\"Status\": %d}", bsec_status);
   printf("\r\n");
   fflush(stdout);
 }
