@@ -198,8 +198,8 @@ void output_ready(int64_t timestamp, float iaq, uint8_t iaq_accuracy,
   time_t t = time(NULL);
   struct tm tm = *localtime(&t);
 
-  printf("%d-%02d-%02d %02d:%02d:%02d,", tm.tm_year + 1900,tm.tm_mon + 1,
-         tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec); /* localtime */
+  /* printf("%d-%02d-%02d %02d:%02d:%02d,", tm.tm_year + 1900,tm.tm_mon + 1,
+         tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec); // localtime 
   printf("[IAQ (%d)]: %.2f", iaq_accuracy, iaq);
   printf(",[T degC]: %.2f,[H %%rH]: %.2f,[P hPa]: %.2f", temperature,
          humidity,pressure / 100);
@@ -209,7 +209,13 @@ void output_ready(int64_t timestamp, float iaq, uint8_t iaq_accuracy,
   printf(",[eCO2 ppm]: %.15f", co2_equivalent);
   printf(",[bVOCe ppm]: %.25f", breath_voc_equivalent);
   //printf(",%" PRId64, timestamp);
-  //printf(",%" PRId64, timestamp_ms);
+  //printf(",%" PRId64, timestamp_ms);*/
+  
+  printf("{\"IAQ_Accuracy\": \"%d\",\"IAQ\":\"%.2f\"", iaq_accuracy, iaq);
+  printf(",\"Temperature\": \"%.2f\",\"Humidity\": \"%.2f\",\"Pressure\": \"%.2f\"", temperature, humidity,pressure / 100);
+  printf(",\"Gas\": \"%.0f\"", gas);
+  printf(",\"bVOCe ppm\": \"%.25f\"", breath_voc_equivalent);
+  printf(",\"Status\": \"%d\"}", bsec_status);
   printf("\r\n");
   fflush(stdout);
 }
