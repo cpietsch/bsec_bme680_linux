@@ -16,6 +16,8 @@ It makes use of
 and can be configured in terms of it.
 Readings will be directly output to stdout in a loop.
 
+Includes edits from [BME680 using the official Bosch Sensortec BSEC Library](https://community.home-assistant.io/t/bme680-using-the-official-bosch-sensortec-bsec-library/54103)
+
 ## Prerequisites
 
 [Download the BSEC software package from Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bsec) `wget https://www.bosch-sensortec.com/media/boschsensortec/downloads/bsec/bsec_1-4-7-4_generic_release.zip`
@@ -27,9 +29,9 @@ Optionally make changes to make.config.
 
 Depending on how your sensor is embedded it might be surrounded by other
 components giving off heat. Use an offset in °C in `bsec_bme680.c` to
-compensate. The default is 5 °C:
+compensate. Current value for my setup is 0.8 °C:
 ```
-#define temp_offset (5.0f)
+#define temp_offset (0.8f)
 ```
 
 To compile: `./make.sh`
@@ -40,10 +42,9 @@ Output will be similar to this:
 
 ```
 $ ./bsec_bme680
-2017-12-27 18:47:21,[IAQ (1)]: 33.96,[T degC]: 19.61,[H %rH]: 46.41,[P hPa]: 983.39,[G Ohms]: 540924.00,[S]: 0
-2017-12-27 18:47:24,[IAQ (1)]: 45.88,[T degC]: 19.61,[H %rH]: 46.41,[P hPa]: 983.41,[G Ohms]: 535321.00,[S]: 0
-2017-12-27 18:47:26,[IAQ (1)]: 40.65,[T degC]: 19.60,[H %rH]: 46.45,[P hPa]: 983.39,[G Ohms]: 537893.00,[S]: 0
-2017-12-27 18:47:29,[IAQ (1)]: 30.97,[T degC]: 19.60,[H %rH]: 46.42,[P hPa]: 983.41,[G Ohms]: 542672.00,[S]: 0
+{"IAQ_Accuracy": 0,"IAQ":25.00,"Temperature": 21.71,"Humidity": 39.26,"Pressure": 1009.72,"Gas": 96989,"bVOCe ppm": 0.5000,"Status": 0}
+{"IAQ_Accuracy": 0,"IAQ":25.00,"Temperature": 21.71,"Humidity": 39.21,"Pressure": 1009.66,"Gas": 98240,"bVOCe ppm": 0.5000,"Status": 0}
+{"IAQ_Accuracy": 0,"IAQ":25.00,"Temperature": 21.71,"Humidity": 39.23,"Pressure": 1009.68,"Gas": 98240,"bVOCe ppm": 0.5000,"Status": 0}
 ```
 * IAQ (n) - Accuracy of the IAQ score from 0 (low) to 3 (high).
 * S: n - Return value of the BSEC library
@@ -54,6 +55,14 @@ The BSEC library is supposed to create an internal state of calibration with
 increasing accuracy over time. Each 10.000 samples it will save the internal
 calibration state to `./bsec_iaq.state` (or wherever you specify the config
 directory to be) so it can pick up where it was after interruption.
+
+## Sending JSON to MQTT with Mostquitto
+
+The output of the sensor can easily be sent to MQTT using Mosquitto
+First, install Mosquitto Client `sudo apt-get install mosquitto-clients`
+
+Launch the program and send the standard output to your Mosquitto broker
+`./bsec_bme680 | mosquitto_pub -h 192.168.1.XXX -u "your broker user" -P "your broker password" -p 1883 -t home/pizero/bme680 -l`
 
 ## Further
 
