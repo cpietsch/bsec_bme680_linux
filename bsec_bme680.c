@@ -28,7 +28,7 @@
 /* definitions */
 
 #define DESTZONE "TZ=Europe/Berlin"
-#define temp_offset (1.0f) // temperature offset of 1 degree for my setup
+#define temp_offset (0.8f) // temperature offset of 0.8 degree for my setup
 #define sample_rate_mode (BSEC_SAMPLE_RATE_LP)
 
 int g_i2cFid; // I2C Linux device handle
