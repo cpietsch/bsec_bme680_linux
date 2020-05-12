@@ -64,6 +64,9 @@ First, install Mosquitto Client `sudo apt-get install mosquitto-clients`
 Launch the program and send the standard output to your Mosquitto broker
 `./bsec_bme680 | mosquitto_pub -h 192.168.1.XXX -u "your broker user" -P "your broker password" -p 1883 -t home/pizero/bme680 -l`
 
+This can be automated launching `bme680_mosquitto.sh` using crontab, with the below command
+`@reboot bash /home/pi/bsec_bme680_linux/bme680_mosquitto.sh >> /home/pi/bsec_bme680_linux/log 2>&1`
+
 ## Further
 
 You can find a growing list of tools to further use and visualize the data
