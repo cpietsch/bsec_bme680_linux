@@ -21,7 +21,7 @@ Readings will be directly output to stdout in a loop.
 [Download the BSEC software package from Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bsec)
 and put it into `./src`, then unpack.
 
-> example :
+Example :  
 > cd ./src  
 > wget https://www.bosch-sensortec.com/media/boschsensortec/downloads/bsec/bsec_1-4-8-0_generic_release.zip  
 > unzip bsec_1-4-8-0_generic_release.zip  
@@ -50,12 +50,20 @@ Output will be similar to this:
 
 ```
 $ ./bsec_bme680
-{"Localtime": "2020-11-14 22:55:43,","IAQ_Accuracy": "3","IAQ":"245.41","Temperature": "15.30","Humidity": "84.98","Pressure": "1007.15","Gas": "33587","Status": "0","eCO2 ppm": "2652.584228515625000","bVOCe ppm": "18.8913288116455078125000000"}
-{"Localtime": "2020-11-14 22:55:46,","IAQ_Accuracy": "3","IAQ":"245.10","Temperature": "15.29","Humidity": "85.01","Pressure": "1007.13","Gas": "33534","Status": "0","eCO2 ppm": "2649.130371093750000","bVOCe ppm": "18.7929534912109375000000000"}
-{"Localtime": "2020-11-14 22:55:49,","IAQ_Accuracy": "3","IAQ":"244.77","Temperature": "15.29","Humidity": "85.03","Pressure": "1007.13","Gas": "33560","Status": "0","eCO2 ppm": "2645.510253906250000","bVOCe ppm": "18.6903953552246093750000000"}
+{"Localtime": "2020-11-14 22:55:43,","IAQ_Accuracy": "3","IAQ":"245.41","Temperature": "15.30","Humidity": "84.98","Pressure": "1007.15","Gas": "33587","Status": "0","eCO2": "2652.58","bVOCe": "18.89"}  
+{"Localtime": "2020-11-14 22:55:46,","IAQ_Accuracy": "3","IAQ":"245.10","Temperature": "15.29","Humidity": "85.01","Pressure": "1007.13","Gas": "33534","Status": "0","eCO2": "2649.13","bVOCe": "18.79"}  
+{"Localtime": "2020-11-14 22:55:49,","IAQ_Accuracy": "3","IAQ":"244.77","Temperature": "15.29","Humidity": "85.03","Pressure": "1007.13","Gas": "33560","Status": "0","eCO2": "2645.51","bVOCe": "18.69"}  
 ```
-* IAQ (n) - Accuracy of the IAQ score from 0 (low) to 3 (high).
-* S: n - Return value of the BSEC library
+* Localtime - Local system time
+* IAQ_Accuracy - Accuracy of the IAQ score from 0 (low) to 3 (high).  
+* IAQ - IAQ score (0-50 good || 51-100 average || 101-150 little bad || 151-200 bad || 201 –300 worse || 301 –500 very bad)  
+* Temperature - Temperature value in Celsius
+* Humidity - Humidity value in percent
+* Pressure - Pressure value in hPa
+* Gas - Gas value in Ohms
+* Status - status of the sensors
+* eCO2 - eCO2 value in ppm
+* bVOCe - bVOCe value in ppm
 
 It can easily be modified in the `output_ready` function.
 
