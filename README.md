@@ -88,7 +88,7 @@ This can be automated launching `run.sh` using systemd unit file, with the below
 > sudo cp run.sh /opt/bsec_bme680/  
 > sudo cp bsec_bme680.service /lib/systemd/system/  
 > sudo chown -R sensors:i2c /opt/bsec_bme680/  
-> sudo chmod 744 /opt/bsec_bme680/run.sh 
+> sudo chmod 744 /opt/bsec_bme680/run.sh  
 > sudo touch /var/log/bsec_bme680.log  
 > sudo chown sensors:i2c /var/log/bsec_bme680.log  
 > sudo systemctl daemon-reload  
