@@ -16,12 +16,20 @@ It makes use of
 and can be configured in terms of it.
 Readings will be directly output to stdout in a loop.
 
-Includes edits from [BME680 using the official Bosch Sensortec BSEC Library](https://community.home-assistant.io/t/bme680-using-the-official-bosch-sensortec-bsec-library/54103)
-
 ## Prerequisites
 
-[Download the BSEC software package from Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bsec) `wget https://www.bosch-sensortec.com/media/boschsensortec/downloads/bsec/bsec_1-4-7-4_generic_release.zip`
-and put it into `./src`, then unpack `unzip bsec_1-4-7-4_generic_release.zip`.
+[Download the BSEC software package from Bosch](https://www.bosch-sensortec.com/bst/products/all_products/bsec)
+and put it into `./src`, then unpack.
+
+> example :
+> cd ./src  
+> wget https://www.bosch-sensortec.com/media/boschsensortec/downloads/bsec/bsec_1-4-8-0_generic_release.zip  
+> unzip bsec_1-4-8-0_generic_release.zip  
+> rm bsec_1-4-8-0_generic_release.zip  
+> cd bsec_1-4-8-0_generic_release  
+> wget https://github.com/BoschSensortec/BME680_driver/archive/bme680_v3.5.10.zip  
+> mv BME680_driver-bme680_v3.5.10/ API  
+
 
 ## Configure and Compile
 
@@ -29,9 +37,9 @@ Optionally make changes to make.config.
 
 Depending on how your sensor is embedded it might be surrounded by other
 components giving off heat. Use an offset in °C in `bsec_bme680.c` to
-compensate. Current value for my setup is 0.8 °C:
+compensate. The default is 5 °C:
 ```
-#define temp_offset (0.8f)
+#define temp_offset (5.0f)
 ```
 
 To compile: `./make.sh`
@@ -42,9 +50,9 @@ Output will be similar to this:
 
 ```
 $ ./bsec_bme680
-{"IAQ_Accuracy": 0,"IAQ":25.00,"Temperature": 21.71,"Humidity": 39.26,"Pressure": 1009.72,"Gas": 96989,"bVOCe ppm": 0.5000,"Status": 0}
-{"IAQ_Accuracy": 0,"IAQ":25.00,"Temperature": 21.71,"Humidity": 39.21,"Pressure": 1009.66,"Gas": 98240,"bVOCe ppm": 0.5000,"Status": 0}
-{"IAQ_Accuracy": 0,"IAQ":25.00,"Temperature": 21.71,"Humidity": 39.23,"Pressure": 1009.68,"Gas": 98240,"bVOCe ppm": 0.5000,"Status": 0}
+{"Localtime": "2020-11-14 22:55:43,","IAQ_Accuracy": "3","IAQ":"245.41","Temperature": "15.30","Humidity": "84.98","Pressure": "1007.15","Gas": "33587","Status": "0","eCO2 ppm": "2652.584228515625000","bVOCe ppm": "18.8913288116455078125000000"}
+{"Localtime": "2020-11-14 22:55:46,","IAQ_Accuracy": "3","IAQ":"245.10","Temperature": "15.29","Humidity": "85.01","Pressure": "1007.13","Gas": "33534","Status": "0","eCO2 ppm": "2649.130371093750000","bVOCe ppm": "18.7929534912109375000000000"}
+{"Localtime": "2020-11-14 22:55:49,","IAQ_Accuracy": "3","IAQ":"244.77","Temperature": "15.29","Humidity": "85.03","Pressure": "1007.13","Gas": "33560","Status": "0","eCO2 ppm": "2645.510253906250000","bVOCe ppm": "18.6903953552246093750000000"}
 ```
 * IAQ (n) - Accuracy of the IAQ score from 0 (low) to 3 (high).
 * S: n - Return value of the BSEC library
@@ -64,8 +72,21 @@ First, install Mosquitto Client `sudo apt-get install mosquitto-clients`
 Launch the program and send the standard output to your Mosquitto broker
 `./bsec_bme680 | mosquitto_pub -h 192.168.1.XXX -u "your broker user" -P "your broker password" -p 1883 -t home/pizero/bme680 -l`
 
-This can be automated launching `bme680_mosquitto.sh` using crontab, with the below command
-`@reboot bash /home/pi/bsec_bme680_linux/bme680_mosquitto.sh >> /home/pi/bsec_bme680_linux/log 2>&1`
+This can be automated launching `run.sh` using systemd unit file, with the below command  
+> sudo useradd -r -G i2c -s /usr/sbin/nologin sensors  
+> sudo mkdir /opt/bsec_bme680/  
+> sudo cp ./bsec_bme680 /opt/bsec_bme680/  
+> sudo cp bsec_bme680.logrotate /etc/logrotate.d/bsec_bme680  
+> sudo cp run.sh /opt/bsec_bme680/  
+> sudo cp bsec_bme680.service /lib/systemd/system/  
+> sudo chown -R sensors:i2c /opt/bsec_bme680/  
+> sudo chmod 744 /opt/bsec_bme680/run.sh 
+> sudo touch /var/log/bsec_bme680.log  
+> sudo chown sensors:i2c /var/log/bsec_bme680.log  
+> sudo systemctl daemon-reload  
+> sudo systemctl start bsec_bme680.service  
+> systemctl status bsec_bme680.service  
+> sudo systemctl enable bsec_bme680.service  
 
 ## Further
 

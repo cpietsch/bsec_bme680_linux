@@ -1,0 +1,10 @@
+/var/log/bsec_bme680.log {
+	weekly
+	rotate 12
+	compress
+	missingok
+	notifempty
+        copytruncate
+	create 644 sensors i2c
+}
+

@@ -1,0 +1,12 @@
+[Unit]
+Description= Bosch BSEC BME680 Sensor
+After=network.target
+
+[Service]
+User=sensors
+Group=i2c
+WorkingDirectory=/opt/bsec_bme680
+ExecStart=/opt/bsec_bme680/run.sh
+
+[Install]
+WantedBy=default.target

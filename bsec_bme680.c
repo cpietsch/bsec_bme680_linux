@@ -23,16 +23,16 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <linux/i2c-dev.h>
-#include "bsec_integration.h"
+#include "bsec_iot_example/bsec_integration.h"
 
 /* definitions */
 
 #define DESTZONE "TZ=Europe/Berlin"
-#define temp_offset (0.8f) // temperature offset of 0.8 degree for my setup
+#define temp_offset (5.0f)
 #define sample_rate_mode (BSEC_SAMPLE_RATE_LP)
 
 int g_i2cFid; // I2C Linux device handle
-int i2c_address = BME680_I2C_ADDR_SECONDARY; // using secondary I2C address on my device (ID 77 instead of 76)
+int i2c_address = BME680_I2C_ADDR_PRIMARY;
 char *filename_state = "bsec_iaq.state";
 char *filename_config = "bsec_iaq.config";
 
@@ -198,24 +198,17 @@ void output_ready(int64_t timestamp, float iaq, uint8_t iaq_accuracy,
   time_t t = time(NULL);
   struct tm tm = *localtime(&t);
 
-  /* printf("%d-%02d-%02d %02d:%02d:%02d,", tm.tm_year + 1900,tm.tm_mon + 1,
-         tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec); // localtime 
-  printf("[IAQ (%d)]: %.2f", iaq_accuracy, iaq);
-  printf(",[T degC]: %.2f,[H %%rH]: %.2f,[P hPa]: %.2f", temperature,
-         humidity,pressure / 100);
-  printf(",[G Ohms]: %.0f", gas);
-  printf(",[S]: %d", bsec_status);
+  printf("{\"Localtime\": \"%d-%02d-%02d %02d:%02d:%02d,\"", tm.tm_year + 1900,tm.tm_mon + 1,
+         tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+  printf(",\"IAQ_Accuracy\": \"%d\",\"IAQ\":\"%.2f\"", iaq_accuracy, iaq);
+  printf(",\"Temperature\": \"%.2f\",\"Humidity\": \"%.2f\",\"Pressure\": \"%.2f\"", temperature, humidity,pressure / 100);
+  printf(",\"Gas\": \"%.0f\"", gas);
+  printf(",\"Status\": \"%d\"", bsec_status);
   //printf(",[static IAQ]: %.2f", static_iaq);
-  printf(",[eCO2 ppm]: %.15f", co2_equivalent);
-  printf(",[bVOCe ppm]: %.25f", breath_voc_equivalent);
+  printf(",\"eCO2 ppm\": \"%.15f\"", co2_equivalent);
+  printf(",\"bVOCe ppm\": \"%.25f\"}", breath_voc_equivalent);
   //printf(",%" PRId64, timestamp);
-  //printf(",%" PRId64, timestamp_ms);*/
-  
-  printf("{\"IAQ_Accuracy\": %d,\"IAQ\":%.2f", iaq_accuracy, iaq);
-  printf(",\"Temperature\": %.2f,\"Humidity\": %.2f,\"Pressure\": %.2f", temperature, humidity,pressure / 100);
-  printf(",\"Gas\": %.0f", gas);
-  printf(",\"bVOCe ppm\": %.4f", breath_voc_equivalent);
-  printf(",\"Status\": %d}", bsec_status);
+  //printf(",%" PRId64, timestamp_ms);
   printf("\r\n");
   fflush(stdout);
 }

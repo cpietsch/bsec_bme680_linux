@@ -29,6 +29,8 @@ else
   echo 'Already applied.'
 fi
 
+echo ${BSEC_DIR}/algo/${ARCH}
+
 echo 'Compiling...'
 cc -Wall -Wno-unused-but-set-variable -Wno-unused-variable -static \
   -std=c99 -pedantic \
@@ -36,7 +38,7 @@ cc -Wall -Wno-unused-but-set-variable -Wno-unused-variable -static \
   -iquote"${BSEC_DIR}"/algo/${ARCH} \
   -iquote"${BSEC_DIR}"/examples \
   "${BSEC_DIR}"/API/bme680.c \
-  "${BSEC_DIR}"/examples/bsec_integration.c \
+  "${BSEC_DIR}"/examples/bsec_iot_example/bsec_integration.c \
   ./bsec_bme680.c \
   -L"${BSEC_DIR}"/algo/"${ARCH}" -lalgobsec \
   -lm -lrt \
