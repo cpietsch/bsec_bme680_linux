@@ -198,7 +198,7 @@ void output_ready(int64_t timestamp, float iaq, uint8_t iaq_accuracy,
   time_t t = time(NULL);
   struct tm tm = *localtime(&t);
 
-  printf("{\"Localtime\": \"%d-%02d-%02d %02d:%02d:%02d,\"", tm.tm_year + 1900,tm.tm_mon + 1,
+  printf("{\"Localtime\": \"%d-%02d-%02d %02d:%02d:%02d\"", tm.tm_year + 1900,tm.tm_mon + 1,
          tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
   printf(",\"IAQ_Accuracy\": \"%d\",\"IAQ\":\"%.2f\"", iaq_accuracy, iaq);
   printf(",\"Temperature\": \"%.2f\",\"Humidity\": \"%.2f\",\"Pressure\": \"%.2f\"", temperature, humidity,pressure / 100);

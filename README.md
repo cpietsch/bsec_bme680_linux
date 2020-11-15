@@ -50,9 +50,9 @@ Output will be similar to this:
 
 ```
 $ ./bsec_bme680
-{"Localtime": "2020-11-14 22:55:43,","IAQ_Accuracy": "3","IAQ":"245.41","Temperature": "15.30","Humidity": "84.98","Pressure": "1007.15","Gas": "33587","Status": "0","eCO2": "2652.58","bVOCe": "18.89"}  
-{"Localtime": "2020-11-14 22:55:46,","IAQ_Accuracy": "3","IAQ":"245.10","Temperature": "15.29","Humidity": "85.01","Pressure": "1007.13","Gas": "33534","Status": "0","eCO2": "2649.13","bVOCe": "18.79"}  
-{"Localtime": "2020-11-14 22:55:49,","IAQ_Accuracy": "3","IAQ":"244.77","Temperature": "15.29","Humidity": "85.03","Pressure": "1007.13","Gas": "33560","Status": "0","eCO2": "2645.51","bVOCe": "18.69"}  
+{"Localtime": "2020-11-14 22:55:43","IAQ_Accuracy": "3","IAQ":"245.41","Temperature": "15.30","Humidity": "84.98","Pressure": "1007.15","Gas": "33587","Status": "0","eCO2": "2652.58","bVOCe": "18.89"}  
+{"Localtime": "2020-11-14 22:55:46","IAQ_Accuracy": "3","IAQ":"245.10","Temperature": "15.29","Humidity": "85.01","Pressure": "1007.13","Gas": "33534","Status": "0","eCO2": "2649.13","bVOCe": "18.79"}  
+{"Localtime": "2020-11-14 22:55:49","IAQ_Accuracy": "3","IAQ":"244.77","Temperature": "15.29","Humidity": "85.03","Pressure": "1007.13","Gas": "33560","Status": "0","eCO2": "2645.51","bVOCe": "18.69"}  
 ```
 * Localtime - Local system time
 * IAQ_Accuracy - Accuracy of the IAQ score from 0 (low) to 3 (high).  
