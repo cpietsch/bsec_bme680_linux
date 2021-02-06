@@ -2,7 +2,7 @@
 
 Read the BME680 sensor with the BSEC library on Linux (e.g. Raspberry Pi)
 
-This repo adds a read.py script to parse the JSON Values of the sensor and sends it directly to a InfluxDB server.
+**This repo adds a read.py script to parse the JSON Values of the sensor and sends it directly to a InfluxDB server.**
 
 ## Intro
 
