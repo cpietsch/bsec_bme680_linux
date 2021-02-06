@@ -72,13 +72,13 @@ increasing accuracy over time. Each 10.000 samples it will save the internal
 calibration state to `./bsec_iaq.state` (or wherever you specify the config
 directory to be) so it can pick up where it was after interruption.
 
-## Sending JSON to MQTT with Mostquitto
+## Sending JSON to InfluxDB
 
-The output of the sensor can easily be sent to MQTT using Mosquitto
-First, install Mosquitto Client `sudo apt-get install mosquitto-clients`
+The output of the sensor can easily be sent directly to InfluxDB with python
+Adjus the InfluxDB IP/Port and the mesurement field to your needs in read.py
 
-Launch the program and send the standard output to your Mosquitto broker
-`./bsec_bme680 | mosquitto_pub -h 192.168.1.XXX -u "your broker user" -P "your broker password" -p 1883 -t home/pizero/bme680 -l`
+Launch the python bridge:
+`./read.py`
 
 This can be automated launching `run.sh` using systemd unit file, with the below command  
 > sudo useradd -r -G i2c -s /usr/sbin/nologin sensors  
